@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartHOTO - Past Records</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <header class="page-header">
+                <a href="hoto.html" class="header-icon"><i class="fas fa-arrow-left"></i></a>
+                <h1 class="page-title">Past HOTO Records</h1>
+                <div style="width: 25px;"></div>
+            </header>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label for="storeFilter">Filter by Store:</label>
+                    <select id="storeFilter">
+                        <option value="">All Stores</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="dateFilter">Filter by Date:</label>
+                    <input type="date" id="dateFilter">
+                </div>
+                <div class="filter-group">
+                    <label for="typeFilter">Filter by Type:</label>
+                    <select id="typeFilter">
+                        <option value="">All Types</option>
+                        <option value="Hand Over">Hand Over</option>
+                        <option value="Take Over">Take Over</option>
+                    </select>
+                </div>
+                <button id="clearFilters" class="btn btn-secondary">Clear Filters</button>
+            </div>
+
+            <!-- Records Table -->
+            <div class="records-container">
+                <div id="loadingMessage" class="loading-message">Loading records...</div>
+                <div id="noRecordsMessage" class="no-records-message" style="display: none;">
+                    No HOTO records found.
+                </div>
+                <table id="recordsTable" class="records-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Store</th>
+                            <th>User</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Box Counts</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recordsTableBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Record Details Modal -->
+            <div id="recordDetailsModal" class="modal-overlay" style="display: none;">
+                <div class="modal-content large-modal">
+                    <span class="close-button">&times;</span>
+                    <h2>HOTO Record Details</h2>
+                    <div id="recordDetailsContent" class="record-details-content">
+                        <!-- Details will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="src/js/past-hoto-records.js"></script>
+</body>
+</html>

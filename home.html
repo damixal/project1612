@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartHOTO - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="src/css/style.css">
+    <!-- Load real-time handover script -->
+    <script src="src/js/real-time-handover.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <header class="home-header-new">
+                <div class="user-profile">
+                    <i class="fa-solid fa-circle-user profile-icon"></i>
+                    <span id="userName" class="user-name-display"></span>
+                    <span id="userRoleBadge" class="role-badge"></span>
+                    <!-- Real-time status indicator -->
+                    <span id="userOnlineStatus" class="online-status-indicator" style="
+                        margin-left: 10px;
+                        font-size: 12px;
+                        padding: 2px 8px;
+                        border-radius: 10px;
+                        background: #f8f9fa;
+                        color: #6c757d;
+                    ">
+                        <i class="fas fa-signal"></i> Connecting...
+                    </span>
+                </div>
+                <div id="dateTime" class="date-time-display"></div>
+                <div id="settingsIcon" class="settings-icon">
+                    <i class="fa-solid fa-gear"></i>
+                </div>
+            </header>
+
+            <main class="home-content">
+                <h1 class="page-title-home">HOME</h1>
+                
+                <!-- Real-time Online Users Panel -->
+                <div id="onlineUsersPanel" class="online-users-panel" style="
+                    margin-bottom: 20px;
+                    padding: 15px;
+                    background: #f8f9fa;
+                    border-radius: 8px;
+                    border: 1px solid #dee2e6;
+                    display: none;
+                ">
+                    <h3 style="margin-top: 0; margin-bottom: 10px; color: #495057;">
+                        <i class="fas fa-users"></i> Online Users
+                    </h3>
+                    <div id="onlineUsersList" style="
+                        max-height: 150px;
+                        overflow-y: auto;
+                        padding: 5px;
+                    ">
+                        <div class="empty-online-users" style="
+                            text-align: center;
+                            padding: 20px;
+                            color: #6c757d;
+                        ">
+                            <i class="fas fa-user-clock"></i>
+                            <p>No other users online</p>
+                        </div>
+                    </div>
+                    <div style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-top: 10px;
+                        font-size: 12px;
+                        color: #6c757d;
+                    ">
+                        <span id="onlineCount">0 users online</span>
+                        <button id="refreshOnlineUsers" class="btn btn-small" style="
+                            padding: 2px 8px;
+                            font-size: 11px;
+                        ">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="home-nav">
+                    <a href="hoto.html" class="btn btn-nav btn-hoto">
+                        <i class="fas fa-handshake"></i> HOTO
+                    </a>
+                    <a href="stores.html" class="btn btn-nav btn-stores">
+                        <i class="fas fa-store"></i> STORES
+                    </a>
+                    <!-- Admin Panel Link (only for admins) -->
+                    <a href="admin-panel.html" class="btn btn-nav btn-danger admin-panel-link" style="display: none;">
+                        <i class="fas fa-shield-alt"></i> Admin Panel
+                    </a>
+                    <!-- Create User Link (only for admins) -->
+                    <a href="create-user.html" class="btn btn-nav btn-success create-user-link" style="display: none;">
+                        <i class="fas fa-user-plus"></i> Create User
+                    </a>
+                </div>
+                
+                <!-- Quick Stats -->
+                <div class="quick-stats" style="
+                    margin-top: 25px;
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                    gap: 10px;
+                ">
+                    <div class="stat-card" style="
+                        padding: 15px;
+                        background: #e7f5ff;
+                        border-radius: 8px;
+                        text-align: center;
+                        border: 1px solid #c5d9f1;
+                    ">
+                        <div class="stat-icon" style="
+                            font-size: 24px;
+                            color: #0066cc;
+                            margin-bottom: 5px;
+                        ">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="stat-value" style="
+                            font-size: 20px;
+                            font-weight: bold;
+                            color: #0066cc;
+                        ">0</div>
+                        <div class="stat-label" style="
+                            font-size: 12px;
+                            color: #495057;
+                        ">Today's HOTO</div>
+                    </div>
+                    
+                    <div class="stat-card" style="
+                        padding: 15px;
+                        background: #e6f7e6;
+                        border-radius: 8px;
+                        text-align: center;
+                        border: 1px solid #c3e6c3;
+                    ">
+                        <div class="stat-icon" style="
+                            font-size: 24px;
+                            color: #28a745;
+                            margin-bottom: 5px;
+                        ">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <div class="stat-value" style="
+                            font-size: 20px;
+                            font-weight: bold;
+                            color: #28a745;
+                        ">0</div>
+                        <div class="stat-label" style="
+                            font-size: 12px;
+                            color: #495057;
+                        ">Your Stores</div>
+                    </div>
+                    
+                    <div class="stat-card" style="
+                        padding: 15px;
+                        background: #fff3cd;
+                        border-radius: 8px;
+                        text-align: center;
+                        border: 1px solid #ffeaa7;
+                    ">
+                        <div class="stat-icon" style="
+                            font-size: 24px;
+                            color: #ffc107;
+                            margin-bottom: 5px;
+                        ">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="stat-value" style="
+                            font-size: 20px;
+                            font-weight: bold;
+                            color: #ffc107;
+                        ">0</div>
+                        <div class="stat-label" style="
+                            font-size: 12px;
+                            color: #495057;
+                        ">Pending</div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="recent-activity" style="
+                    margin-top: 25px;
+                    padding: 15px;
+                    background: white;
+                    border-radius: 8px;
+                    border: 1px solid #dee2e6;
+                ">
+                    <h3 style="margin-top: 0; margin-bottom: 15px; color: #495057;">
+                        <i class="fas fa-history"></i> Recent Activity
+                    </h3>
+                    <div id="recentActivityList" style="
+                        max-height: 200px;
+                        overflow-y: auto;
+                    ">
+                        <div class="empty-activity" style="
+                            text-align: center;
+                            padding: 20px;
+                            color: #6c757d;
+                        ">
+                            <i class="fas fa-inbox"></i>
+                            <p>No recent activity</p>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 10px;">
+                        <a href="past-hoto-records.html" class="btn btn-small" style="
+                            padding: 5px 15px;
+                            font-size: 12px;
+                        ">
+                            <i class="fas fa-list"></i> View All Records
+                        </a>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logoutModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Confirm Logout</h2>
+            <p>Are you sure you want to log out?</p>
+            <div class="modal-buttons">
+                <button id="confirmLogoutBtn" class="modal-btn">Yes, Log Out</button>
+                <button id="cancelLogoutBtn" class="modal-btn">No, Stay Logged In</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Handover Notification (Hidden by default) -->
+    <div id="handoverNotificationModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 500px;">
+            <h2 style="color: #007bff;">
+                <i class="fas fa-handshake"></i> New Handover Request
+            </h2>
+            <div id="handoverNotificationContent" style="padding: 15px 0;">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+            <div class="modal-actions" style="display: flex; gap: 10px; justify-content: center;">
+                <button id="acceptHandoverBtn" class="btn btn-success" style="flex: 1;">
+                    <i class="fas fa-check"></i> Accept
+                </button>
+                <button id="rejectHandoverBtn" class="btn btn-danger" style="flex: 1;">
+                    <i class="fas fa-times"></i> Reject
+                </button>
+                <button id="ignoreHandoverBtn" class="btn btn-secondary">
+                    <i class="fas fa-times-circle"></i> Ignore
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="src/js/script.js"></script>
+    <script src="src/js/role-management.js"></script>
+    <script>
+        // Handle home page functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            // Display user info
+            const userNameDisplay = document.getElementById('userName');
+            const dateTimeDisplay = document.getElementById('dateTime');
+            const userRoleBadge = document.getElementById('userRoleBadge');
+            const userOnlineStatus = document.getElementById('userOnlineStatus');
+            const settingsIcon = document.getElementById('settingsIcon');
+            const logoutModal = document.getElementById('logoutModal');
+            const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
+            const cancelLogoutBtn = document.getElementById('cancelLogoutBtn');
+            
+            // Online users elements
+            const onlineUsersPanel = document.getElementById('onlineUsersPanel');
+            const onlineUsersList = document.getElementById('onlineUsersList');
+            const onlineCount = document.getElementById('onlineCount');
+            const refreshOnlineUsersBtn = document.getElementById('refreshOnlineUsers');
+            
+            // Handover notification elements
+            const handoverNotificationModal = document.getElementById('handoverNotificationModal');
+            const handoverNotificationContent = document.getElementById('handoverNotificationContent');
+            const acceptHandoverBtn = document.getElementById('acceptHandoverBtn');
+            const rejectHandoverBtn = document.getElementById('rejectHandoverBtn');
+            const ignoreHandoverBtn = document.getElementById('ignoreHandoverBtn');
+            
+            // Stats elements
+            const todayHOTOStat = document.querySelector('.stat-card:nth-child(1) .stat-value');
+            const yourStoresStat = document.querySelector('.stat-card:nth-child(2) .stat-value');
+            const pendingStat = document.querySelector('.stat-card:nth-child(3) .stat-value');
+            const recentActivityList = document.getElementById('recentActivityList');
+            
+            let currentHandoverData = null;
+            
+            // Show admin-only links only for admins
+            const userRole = localStorage.getItem('loggedInUserRole');
+            if (userRole === 'MEC_OIC_ADMIN') {
+                const adminLink = document.querySelector('.admin-panel-link');
+                const createUserLink = document.querySelector('.create-user-link');
+                if (adminLink) adminLink.style.display = 'block';
+                if (createUserLink) createUserLink.style.display = 'block';
+            }
+            
+            // Update date and time
+            function updateDateTime() {
+                const now = new Date();
+                const options = { 
+                    weekday: 'short', 
+                    day: 'numeric', 
+                    month: 'short', 
+                    year: 'numeric', 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    hour12: true 
+                };
+                if (dateTimeDisplay) {
+                    dateTimeDisplay.textContent = now.toLocaleString('en-SG', options);
+                }
+            }
+            
+            // Display user information
+            const loggedInUserName = localStorage.getItem('loggedInUserName');
+            if (loggedInUserName) {
+                if (userNameDisplay) {
+                    userNameDisplay.textContent = loggedInUserName;
+                }
+                
+                updateDateTime();
+                setInterval(updateDateTime, 60000);
+                
+                // Display user role badge
+                if (userRoleBadge && userRole) {
+                    userRoleBadge.textContent = userRole.replace('_', ' ');
+                    userRoleBadge.className = `role-badge role-${userRole.toLowerCase()}`;
+                }
+                
+                // Initialize real-time connection
+                initializeRealTimeConnection();
+                
+                // Load user stats
+                loadUserStats();
+                
+                // Load recent activity
+                loadRecentActivity();
+                
+            } else {
+                // Redirect to login if not logged in
+                window.location.href = 'login.html';
+            }
+            
+            // Initialize real-time WebSocket connection
+            function initializeRealTimeConnection() {
+                const userId = localStorage.getItem('loggedInUserId');
+                const userName = localStorage.getItem('loggedInUserName');
+                const userRole = localStorage.getItem('loggedInUserRole');
+                
+                if (!userId || !userName || !userRole) {
+                    console.error('Missing user information for real-time connection');
+                    return;
+                }
+                
+                // Check if RealTimeHandover is available
+                if (typeof RealTimeHandover !== 'undefined') {
+                    // Connect to real-time server
+                    RealTimeHandover.connect(userId, userName, userRole);
+                    
+                    // Set up connection status callback
+                    RealTimeHandover.onConnectionStatusChange = (isConnected) => {
+                        updateConnectionStatus(isConnected);
+                    };
+                    
+                    // Set up online users callback
+                    RealTimeHandover.onOnlineUsersUpdate = (onlineUsers) => {
+                        updateOnlineUsersList(onlineUsers);
+                    };
+                    
+                    // Set up handover invitation callback
+                    RealTimeHandover.onHandoverInvitation = (handoverData) => {
+                        showHandoverNotification(handoverData);
+                    };
+                    
+                    // Request initial online users list
+                    setTimeout(() => {
+                        if (RealTimeHandover.isConnected) {
+                            RealTimeHandover.requestOnlineUsers();
+                        }
+                    }, 2000);
+                    
+                } else {
+                    console.warn('RealTimeHandover not available, running in offline mode');
+                    updateConnectionStatus(false);
+                }
+            }
+            
+            // Update connection status display
+            function updateConnectionStatus(isConnected) {
+                if (userOnlineStatus) {
+                    if (isConnected) {
+                        userOnlineStatus.innerHTML = '<i class="fas fa-signal"></i> Online';
+                        userOnlineStatus.style.background = '#d4edda';
+                        userOnlineStatus.style.color = '#155724';
+                        userOnlineStatus.style.border = '1px solid #c3e6cb';
+                        
+                        // Show online users panel
+                        if (onlineUsersPanel) {
+                            onlineUsersPanel.style.display = 'block';
+                        }
+                        
+                    } else {
+                        userOnlineStatus.innerHTML = '<i class="fas fa-signal-slash"></i> Offline';
+                        userOnlineStatus.style.background = '#f8d7da';
+                        userOnlineStatus.style.color = '#721c24';
+                        userOnlineStatus.style.border = '1px solid #f5c6cb';
+                        
+                        // Hide online users panel
+                        if (onlineUsersPanel) {
+                            onlineUsersPanel.style.display = 'none';
+                        }
+                    }
+                }
+            }
+            
+            // Update online users list
+            function updateOnlineUsersList(onlineUsers) {
+                if (!onlineUsersList) return;
+                
+                // Filter out current user
+                const currentUserId = localStorage.getItem('loggedInUserId');
+                const filteredUsers = onlineUsers.filter(user => user.userId != currentUserId);
+                
+                // Update count
+                if (onlineCount) {
+                    onlineCount.textContent = `${filteredUsers.length} user${filteredUsers.length !== 1 ? 's' : ''} online`;
+                }
+                
+                // Clear current list
+                onlineUsersList.innerHTML = '';
+                
+                if (filteredUsers.length === 0) {
+                    onlineUsersList.innerHTML = `
+                        <div class="empty-online-users" style="
+                            text-align: center;
+                            padding: 20px;
+                            color: #6c757d;
+                        ">
+                            <i class="fas fa-user-clock"></i>
+                            <p>No other users online</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Add each online user
+                filteredUsers.forEach(user => {
+                    const userItem = document.createElement('div');
+                    userItem.className = 'online-user-item';
+                    userItem.style.cssText = `
+                        display: flex;
+                        align-items: center;
+                        padding: 8px 10px;
+                        margin-bottom: 5px;
+                        background: white;
+                        border-radius: 4px;
+                        border: 1px solid #e9ecef;
+                    `;
+                    
+                    // Determine team color
+                    let teamColor = '#6c757d'; // Default gray
+                    let teamText = '';
+                    
+                    if (user.userRole === 'MEC_OIC_ADMIN') {
+                        teamColor = '#dc3545'; // Red for admin
+                        teamText = 'Admin';
+                    } else if (user.userRole === 'RQ') {
+                        teamColor = '#28a745'; // Green for RQ
+                        teamText = 'RQ';
+                    } else if (user.userRole === 'MEMBER') {
+                        teamColor = '#007bff'; // Blue for member
+                        teamText = 'Member';
+                    }
+                    
+                    userItem.innerHTML = `
+                        <div style="
+                            width: 10px;
+                            height: 10px;
+                            border-radius: 50%;
+                            background: #28a745;
+                            margin-right: 10px;
+                        "></div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 500; color: #495057;">${user.userName}</div>
+                            <div style="font-size: 11px; color: #6c757d;">
+                                <span style="color: ${teamColor};">${teamText}</span>
+                                • Last seen: ${formatTimeAgo(user.lastSeen)}
+                            </div>
+                        </div>
+                        <div class="user-actions" style="display: flex; gap: 5px;">
+                            <button class="btn-handover-request btn btn-small" 
+                                    data-user-id="${user.userId}"
+                                    data-user-name="${user.userName}"
+                                    data-user-role="${user.userRole}"
+                                    style="padding: 2px 8px; font-size: 11px;">
+                                <i class="fas fa-handshake"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    onlineUsersList.appendChild(userItem);
+                });
+                
+                // Add event listeners to handover buttons
+                document.querySelectorAll('.btn-handover-request').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const userId = btn.dataset.userId;
+                        const userName = btn.dataset.userName;
+                        const userRole = btn.dataset.userRole;
+                        
+                        // Check if user can handover to this user based on team rules
+                        if (canHandoverToUser(userRole)) {
+                            // Redirect to HOTO form with user pre-selected
+                            localStorage.setItem('preSelectedHandoverUser', JSON.stringify({
+                                id: userId,
+                                name: userName,
+                                role: userRole
+                            }));
+                            window.location.href = 'hoto.html';
+                        } else {
+                            alert(`Cannot handover to ${userRole}. Team restrictions apply.\n\nYou can only handover to users from the opposite team.`);
+                        }
+                    });
+                });
+            }
+            
+            // Check if current user can handover to target user based on team rules
+            function canHandoverToUser(targetUserRole) {
+                const currentUserRole = localStorage.getItem('loggedInUserRole');
+                
+                // Team A: MEC_OIC_ADMIN, MEMBER
+                // Team B: RQ
+                
+                const teamA = ['MEC_OIC_ADMIN', 'MEMBER'];
+                const teamB = ['RQ'];
+                
+                const currentTeam = teamA.includes(currentUserRole) ? 'TEAM_A' : 'TEAM_B';
+                const targetTeam = teamA.includes(targetUserRole) ? 'TEAM_A' : 'TEAM_B';
+                
+                // Cannot handover within same team (except admin<->member within TEAM_A)
+                if (currentTeam === targetTeam) {
+                    // Allow admin to handover to member (both TEAM_A)
+                    if (currentUserRole === 'MEC_OIC_ADMIN' && targetUserRole === 'MEMBER') {
+                        return true;
+                    }
+                    // Allow member to handover to admin (both TEAM_A)
+                    if (currentUserRole === 'MEMBER' && targetUserRole === 'MEC_OIC_ADMIN') {
+                        return true;
+                    }
+                    // Disallow other same-team handovers
+                    return false;
+                }
+                
+                // Allow cross-team handovers
+                return true;
+            }
+            
+            // Format time ago
+            function formatTimeAgo(timestamp) {
+                const now = Date.now();
+                const diff = now - timestamp;
+                
+                if (diff < 60000) { // Less than 1 minute
+                    return 'Just now';
+                } else if (diff < 3600000) { // Less than 1 hour
+                    const minutes = Math.floor(diff / 60000);
+                    return `${minutes}m ago`;
+                } else if (diff < 86400000) { // Less than 1 day
+                    const hours = Math.floor(diff / 3600000);
+                    return `${hours}h ago`;
+                } else {
+                    const days = Math.floor(diff / 86400000);
+                    return `${days}d ago`;
+                }
+            }
+            
+            // Show handover notification
+            function showHandoverNotification(data) {
+                currentHandoverData = data;
+                
+                if (handoverNotificationContent && handoverNotificationModal) {
+                    handoverNotificationContent.innerHTML = `
+                        <div class="handover-notification-details">
+                            <p><strong>From:</strong> ${data.fromUserName} (${data.fromUserRole})</p>
+                            <p><strong>Store:</strong> ${data.storeName}</p>
+                            <p><strong>Store ID:</strong> ${data.storeId}</p>
+                            <p><strong>Time:</strong> ${new Date(data.timestamp).toLocaleString()}</p>
+                            ${data.remarks ? `<p><strong>Remarks:</strong> ${data.remarks}</p>` : ''}
+                        </div>
+                    `;
+                    
+                    handoverNotificationModal.style.display = 'flex';
+                }
+            }
+            
+            // Load user stats
+            async function loadUserStats() {
+                try {
+                    const userId = localStorage.getItem('loggedInUserId');
+                    const today = new Date().toISOString().split('T')[0];
+                    
+                    // Fetch today's HOTO count
+                    const hotoResponse = await fetch('/api/hoto/records');
+                    if (hotoResponse.ok) {
+                        const records = await hotoResponse.json();
+                        const todayRecords = records.filter(record => {
+                            const recordDate = record.hoto_date || record.created_at;
+                            return recordDate.startsWith(today) && record.user_id == userId;
+                        });
+                        
+                        if (todayHOTOStat) {
+                            todayHOTOStat.textContent = todayRecords.length;
+                        }
+                    }
+                    
+                    // Fetch user's stores count
+                    const storesResponse = await fetch('/api/stores');
+                    if (storesResponse.ok) {
+                        const stores = await storesResponse.json();
+                        const userStores = stores.filter(store => {
+                            return store.created_by_id == userId || store.current_holder_id == userId;
+                        });
+                        
+                        if (yourStoresStat) {
+                            yourStoresStat.textContent = userStores.length;
+                        }
+                    }
+                    
+                } catch (error) {
+                    console.error('Error loading stats:', error);
+                }
+            }
+            
+            // Load recent activity
+            async function loadRecentActivity() {
+                try {
+                    const response = await fetch('/api/hoto/records');
+                    if (response.ok) {
+                        const records = await response.json();
+                        
+                        // Sort by date (newest first) and take first 5
+                        const recentRecords = records
+                            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                            .slice(0, 5);
+                        
+                        if (recentActivityList) {
+                            recentActivityList.innerHTML = '';
+                            
+                            if (recentRecords.length === 0) {
+                                recentActivityList.innerHTML = `
+                                    <div class="empty-activity" style="
+                                        text-align: center;
+                                        padding: 20px;
+                                        color: #6c757d;
+                                    ">
+                                        <i class="fas fa-inbox"></i>
+                                        <p>No recent activity</p>
+                                    </div>
+                                `;
+                                return;
+                            }
+                            
+                            recentRecords.forEach(record => {
+                                const activityItem = document.createElement('div');
+                                activityItem.className = 'activity-item';
+                                activityItem.style.cssText = `
+                                    padding: 10px;
+                                    margin-bottom: 8px;
+                                    background: #f8f9fa;
+                                    border-radius: 4px;
+                                    border-left: 3px solid ${record.hoto_type === 'Hand Over' ? '#007bff' : '#28a745'};
+                                `;
+                                
+                                const date = new Date(record.created_at);
+                                const timeAgo = formatTimeAgo(date.getTime());
+                                
+                                activityItem.innerHTML = `
+                                    <div style="font-weight: 500; color: #495057;">
+                                        ${record.user_name} ${record.hoto_type.toLowerCase()}ed ${record.store_name}
+                                    </div>
+                                    <div style="font-size: 12px; color: #6c757d; margin-top: 2px;">
+                                        <span style="color: ${record.status === 'COMPLETED' ? '#28a745' : '#ffc107'};">
+                                            ${record.status}
+                                        </span>
+                                        • ${timeAgo}
+                                    </div>
+                                `;
+                                
+                                recentActivityList.appendChild(activityItem);
+                            });
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading recent activity:', error);
+                }
+            }
+            
+            // Settings icon click event - show logout modal
+            if (settingsIcon) {
+                settingsIcon.addEventListener('click', function() {
+                    console.log('Settings icon clicked');
+                    if (logoutModal) {
+                        logoutModal.style.display = 'flex';
+                    }
+                });
+            }
+            
+            // Confirm logout
+            if (confirmLogoutBtn) {
+                confirmLogoutBtn.addEventListener('click', function() {
+                    // Disconnect from real-time server
+                    if (typeof RealTimeHandover !== 'undefined' && RealTimeHandover.disconnect) {
+                        RealTimeHandover.disconnect();
+                    }
+                    
+                    // Clear local storage
+                    localStorage.removeItem('loggedInUserName');
+                    localStorage.removeItem('loggedInUserRank');
+                    localStorage.removeItem('loggedInUserPhone');
+                    localStorage.removeItem('loggedInUserRole');
+                    localStorage.removeItem('loggedInUserId');
+                    
+                    alert('You have been logged out.');
+                    window.location.href = 'index.html';
+                });
+            }
+            
+            // Cancel logout
+            if (cancelLogoutBtn) {
+                cancelLogoutBtn.addEventListener('click', function() {
+                    if (logoutModal) {
+                        logoutModal.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Refresh online users button
+            if (refreshOnlineUsersBtn) {
+                refreshOnlineUsersBtn.addEventListener('click', function() {
+                    if (typeof RealTimeHandover !== 'undefined' && RealTimeHandover.requestOnlineUsers) {
+                        RealTimeHandover.requestOnlineUsers();
+                    }
+                });
+            }
+            
+            // Handover notification buttons
+            if (acceptHandoverBtn) {
+                acceptHandoverBtn.addEventListener('click', function() {
+                    if (currentHandoverData && RealTimeHandover) {
+                        RealTimeHandover.respondToHandover(currentHandoverData.fromUserId, true, 'Accepted');
+                        handoverNotificationModal.style.display = 'none';
+                        
+                        // Store handover data and redirect to accept
+                        localStorage.setItem('pendingHandoverAccept', JSON.stringify(currentHandoverData));
+                        window.location.href = 'hoto-forms-fill.html?accept=true';
+                    }
+                });
+            }
+            
+            if (rejectHandoverBtn) {
+                rejectHandoverBtn.addEventListener('click', function() {
+                    if (currentHandoverData && RealTimeHandover) {
+                        const reason = prompt('Please provide a reason for rejecting:');
+                        RealTimeHandover.respondToHandover(currentHandoverData.fromUserId, false, reason || 'No reason provided');
+                        handoverNotificationModal.style.display = 'none';
+                        alert('Handover request rejected.');
+                    }
+                });
+            }
+            
+            if (ignoreHandoverBtn) {
+                ignoreHandoverBtn.addEventListener('click', function() {
+                    handoverNotificationModal.style.display = 'none';
+                });
+            }
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target == logoutModal) {
+                    logoutModal.style.display = 'none';
+                }
+                if (event.target == handoverNotificationModal) {
+                    handoverNotificationModal.style.display = 'none';
+                }
+            });
+            
+            // Handle beforeunload to disconnect from WebSocket
+            window.addEventListener('beforeunload', function() {
+                if (typeof RealTimeHandover !== 'undefined' && RealTimeHandover.disconnect) {
+                    RealTimeHandover.disconnect();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store HOTO Form</title>
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <header class="page-header">
+                <a href="hoto.html" class="header-icon"><i class="fas fa-arrow-left"></i></a>
+                <h1 class="page-title">Store HOTO Form</h1>
+                <div style="width: 25px;"></div>
+            </header>
+
+            <div class="hoto-form">
+                <div class="user-display">
+                    <h3>Current User: <span id="userInfo">Loading...</span></h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="storeSelect">Select Store:</label>
+                    <select id="storeSelect" class="form-control">
+                        <option value="">Loading stores...</option>
+                    </select>
+                </div>
+
+                <div class="hoto-actions">
+                    <button id="handoverBtn" class="btn btn-primary btn-large">
+                        <i class="fas fa-handshake"></i> Handover Store
+                    </button>
+                    <button id="takeoverBtn" class="btn btn-secondary btn-large">
+                        <i class="fas fa-receipt"></i> Takeover Store
+                    </button>
+                </div>
+
+                <div class="instructions">
+                    <h4>Instructions:</h4>
+                    <ul>
+                        <li><strong>Handover:</strong> Transfer store responsibility to another user</li>
+                        <li><strong>Takeover:</strong> Assume responsibility for a handed-over store</li>
+                        <li>Only available or your own stores can be handed over</li>
+                        <li>Only handed-over stores can be taken over</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="src/js/hoto-form.js"></script>
+</body>
+</html>

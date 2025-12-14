@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartHOTO - Create User (Admin Only)</title>
+    <link rel="stylesheet" href="src/css/style.css">
+    <script src="src/js/role-management.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2 class="page-title">Create New User (Admin Only)</h2>
+            <div id="adminCheckMessage" class="permission-denied" style="display: none;">
+                <p>⚠️ Access Denied</p>
+                <p>Only MEC OIC Administrators can create new users.</p>
+                <a href="login.html" class="btn btn-primary" style="margin-top: 10px;">Go to Login</a>
+            </div>
+            
+            <form id="createUserForm" style="display: none;">
+                <select id="rank" name="rank" required>
+                    <option value="" disabled selected>Select Rank</option>
+                    <option value="REC">REC</option>
+                    <option value="PTE">PTE</option>
+                    <option value="LCP">LCP</option>
+                    <option value="CPL">CPL</option>
+                    <option value="CFC">CFC</option>
+                    <option value="3SG">3SG</option>
+                    <option value="2SG">2SG</option>
+                    <option value="1SG">1SG</option>
+                    <option value="SSG">SSG</option>
+                    <option value="MSG">MSG</option>
+                    <option value="3WO">3WO</option>
+                    <option value="2WO">2WO</option>
+                    <option value="1WO">1WO</option>
+                    <option value="MWO">MWO</option>
+                    <option value="SWO">SWO</option>
+                    <option value="CWO">CWO</option>
+                    <option value="2LT">2LT</option>
+                    <option value="LTA">LTA</option>
+                    <option value="CPT">CPT</option>
+                    <option value="MAJ">MAJ</option>
+                    <option value="LTC">LTC</option>
+                    <option value="COL">COL</option>
+                </select>
+                <input type="text" id="name" name="name" placeholder="Name" required>
+                <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Phone Number (8 digits)" required>
+                
+                <div class="form-group">
+                    <label for="role">Role:</label>
+                    <select id="role" name="role" required>
+                        <option value="" disabled selected>Select Role</option>
+                        <option value="MEMBER">Member (Individual Soldier)</option>
+                        <option value="RQ">RQ</option>
+                        <option value="MEC_OIC_ADMIN">MEC OIC Admin</option>
+                    </select>
+                </div>
+                
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+                <button type="submit" class="btn btn-primary">Create User</button>
+            </form>
+            <a href="home.html" class="btn btn-secondary">Back to Home</a>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if user is admin
+            const userRole = localStorage.getItem('loggedInUserRole');
+            const adminCheckMessage = document.getElementById('adminCheckMessage');
+            const createUserForm = document.getElementById('createUserForm');
+            
+            if (userRole !== 'MEC_OIC_ADMIN') {
+                // User is not admin - show access denied message
+                adminCheckMessage.style.display = 'block';
+                if (createUserForm) createUserForm.style.display = 'none';
+                
+                // Redirect non-admins after 3 seconds
+                setTimeout(() => {
+                    window.location.href = 'home.html';
+                }, 3000);
+            } else {
+                // User is admin - show the form
+                adminCheckMessage.style.display = 'none';
+                if (createUserForm) createUserForm.style.display = 'block';
+            }
+        });
+    </script>
+    
+    <script src="src/js/script.js"></script>
+</body>
+</html>

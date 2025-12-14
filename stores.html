@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartHOTO - Stores</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="src/css/style.css">
+    <!-- Add QR Code library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <header class="page-header">
+                <a href="home.html" class="header-icon"><i class="fa-solid fa-house"></i></a>
+                <h1 class="page-title">STORES</h1>
+                <button id="addStoreBtn" class="header-icon"><i class="fa-solid fa-plus"></i></button>
+            </header>
+
+            <div id="dateTime" class="date-time-display"></div>
+
+            <main id="storeList" class="store-list-container">
+                <!-- Team A stores will be loaded here -->
+                <div id="teamAStores" class="team-section">
+                    <h2 class="team-title"><i class="fas fa-users"></i> TEAM A STORES</h2>
+                    <div class="stores-grid" id="teamAGrid">
+                        <!-- Team A stores will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Team B stores will be loaded here -->
+                <div id="teamBStores" class="team-section">
+                    <h2 class="team-title"><i class="fas fa-users"></i> TEAM B STORES</h2>
+                    <div class="stores-grid" id="teamBGrid">
+                        <!-- Team B stores will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Empty state message -->
+                <div id="emptyState" class="empty-state" style="display: none;">
+                    <h3><i class="fas fa-store"></i> No Stores Found</h3>
+                    <p>No stores exist in the database or you don't have access to view them.</p>
+                    <button onclick="location.reload()" class="btn btn-primary" style="margin-top: 10px;">
+                        <i class="fas fa-redo"></i> Refresh
+                    </button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add Store Modal -->
+    <div id="addStoreModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Add New Store</h2>
+            <form id="addStoreForm">
+                <input type="text" id="newStoreName" placeholder="Enter Store Name" required>
+                <div class="form-help">
+                    <i class="fas fa-info-circle"></i> Store name must be unique
+                </div>
+                <button type="submit" class="btn btn-primary">Create Store</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div id="qrCodeModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <span class="close-button qr-close">&times;</span>
+            <h2>Store QR Code</h2>
+            <div class="qr-code-info">
+                <p><strong>Store:</strong> <span id="qrStoreName"></span></p>
+                <p><strong>Store ID:</strong> <span id="qrStoreId"></span></p>
+            </div>
+            <div id="qrCodeContainer" class="qr-code-container">
+                <!-- QR code will be displayed here -->
+                <div id="qrCodeDisplay"></div>
+            </div>
+            <div class="qr-code-actions">
+                <button id="downloadQRBtn" class="btn btn-primary">
+                    <i class="fas fa-download"></i> Download QR Code
+                </button>
+                <button id="printQRBtn" class="btn btn-secondary">
+                    <i class="fas fa-print"></i> Print QR Code
+                </button>
+            </div>
+            <div class="qr-instructions">
+                <p><i class="fas fa-info-circle"></i> Scan this QR code with the SmartHOTO app to quickly access store details.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="src/js/stores.js"></script>
+</body>
+</html>

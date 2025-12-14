@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store HOTO Form</title>
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <!-- Add QR Scanner library -->
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <header class="page-header">
+                <a href="hoto.html" class="header-icon"><i class="fas fa-arrow-left"></i></a>
+                <h1 class="page-title">Store HOTO Form - Hand Over Only</h1>
+                <div style="width: 25px;"></div>
+            </header>
+
+            <div class="progress-indicator">
+                Step <span id="currentStep">1</span> of <span id="totalSteps">4</span>
+            </div>
+
+            <form id="hotoMultiStepForm" class="details-form">
+                <!-- SECTION 1: Store Selection -->
+                <div id="section1" class="form-section active">
+                    <h2 class="page-title">Select Store for Hand Over</h2>
+                    
+                    <div class="user-display">
+                        <h3>Current User: <span id="userInfo">Loading...</span></h3>
+                        <div id="userRoleBadge" class="role-badge"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="storeSelect">Select Store to Hand Over:</label>
+                        <select id="storeSelect" class="form-control" required>
+                            <option value="">Loading stores...</option>
+                        </select>
+                        <div class="form-help">
+                            <i class="fas fa-info-circle"></i> Select the store you want to hand over to another user
+                        </div>
+                    </div>
+
+                    <div class="store-preview" id="storePreview" style="display: none;">
+                        <h4>Selected Store Information:</h4>
+                        <div class="store-info-card">
+                            <p><strong>Name:</strong> <span id="previewStoreName"></span></p>
+                            <p><strong>Store ID:</strong> <span id="previewStoreId"></span></p>
+                            <p><strong>Status:</strong> <span id="previewStoreStatus"></span></p>
+                            <p><strong>Current Holder:</strong> <span id="previewStoreHolder"></span></p>
+                            <p><strong>Team:</strong> <span id="previewStoreTeam"></span></p>
+                            <p><strong>Created By:</strong> <span id="previewStoreCreator"></span></p>
+                        </div>
+                    </div>
+
+                    <div class="instructions-box">
+                        <h4><i class="fas fa-info-circle"></i> Next Step Instructions:</h4>
+                        <ul>
+                            <li>After selecting a store, you'll need to scan its QR code to verify</li>
+                            <li>Ensure you have the physical store's QR code ready for scanning</li>
+                            <li>The QR code scan is required to proceed with the handover</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-secondary back-button" style="display: none;">Back</button>
+                        <button type="button" class="btn btn-primary next-button">Next: Verify Store QR Code</button>
+                    </div>
+                </div>
+
+                <!-- SECTION 2: QR Code Verification -->
+                <div id="section2" class="form-section">
+                    <h2 class="page-title">Verify Store QR Code</h2>
+
+                    <div class="selected-store-info">
+                        <h4><i class="fas fa-store"></i> Store to Verify:</h4>
+                        <div class="store-info-card">
+                            <p><strong>Name:</strong> <span id="selectedStoreName"></span></p>
+                            <p><strong>Store ID:</strong> <span id="selectedStoreId"></span></p>
+                            <p><strong>Expected QR Data:</strong> <code id="expectedQRData"></code></p>
+                        </div>
+                    </div>
+
+                    <div class="qr-scanning-instructions">
+                        <h4><i class="fas fa-info-circle"></i> Scanning Instructions:</h4>
+                        <ul>
+                            <li>Click "Start QR Scanner" button below</li>
+                            <li>Allow camera permissions when prompted</li>
+                            <li>Scan the QR code of the selected store</li>
+                            <li>The scan must match the selected store to proceed</li>
+                        </ul>
+                    </div>
+
+                    <div class="qr-scanning-section">
+                        <button type="button" id="startScannerBtn" class="btn btn-primary btn-large">
+                            <i class="fas fa-qrcode"></i> Start QR Scanner
+                        </button>
+                        
+                        <div id="scannerContainer" style="display: none; margin-top: 20px; text-align: center;">
+                            <p style="margin-bottom: 10px; color: #666;">Point your camera at the store QR code</p>
+                            <div id="qrReader" style="width: 100%; max-width: 300px; margin: 0 auto;"></div>
+                            <button type="button" id="stopScannerBtn" class="btn btn-secondary" style="margin-top: 15px;">
+                                <i class="fas fa-stop"></i> Stop Scanner
+                            </button>
+                        </div>
+
+                        <div id="scannerStatus" class="scanner-status" style="display: none; margin-top: 15px;">
+                            <div class="status-message success" id="scanSuccess" style="display: none;">
+                                <i class="fas fa-check-circle"></i> QR Code verified successfully!
+                            </div>
+                            <div class="status-message error" id="scanError" style="display: none;">
+                                <i class="fas fa-exclamation-circle"></i> <span id="errorText"></span>
+                            </div>
+                        </div>
+
+                        <div class="verification-note" style="margin-top: 20px;">
+                            <p><i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> You must scan the QR code of the selected store to proceed. This ensures you are handing over the correct physical store.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-secondary back-button">Back</button>
+                        <button type="button" class="btn btn-primary next-button" id="nextAfterScan" disabled>Next: Handshake Details</button>
+                    </div>
+                </div>
+
+                <!-- SECTION 3: Handshake & User Selection -->
+                <div id="section3" class="form-section">
+                    <h2 class="page-title">Handshake Details</h2>
+
+                    <div class="verified-store-info">
+                        <h4><i class="fas fa-check-circle" style="color: #28a745;"></i> Verified Store:</h4>
+                        <div class="store-info-card">
+                            <p><strong>Name:</strong> <span id="verifiedStoreName"></span></p>
+                            <p><strong>Store ID:</strong> <span id="verifiedStoreId"></span></p>
+                            <p><strong>Team:</strong> <span id="verifiedStoreTeam"></span></p>
+                        </div>
+                    </div>
+
+                    <div id="handshakeSection" class="handshake-section">
+                        <div class="form-group">
+                            <label for="handoverToUser">Hand Over To:</label>
+                            <select id="handoverToUser" class="form-control" required>
+                                <option value="">Select user to handover to...</option>
+                            </select>
+                            <div class="form-help">
+                                <i class="fas fa-info-circle"></i> Select the user who will take over this store
+                            </div>
+                        </div>
+
+                        <div class="handshake-info-card" id="handshakeInfo">
+                            <h4><i class="fas fa-handshake"></i> Handshake Information</h4>
+                            <div class="handshake-parties">
+                                <div class="party from-party">
+                                    <h5>From (Handing Over):</h5>
+                                    <p><strong>Name:</strong> <span id="fromUserName"></span></p>
+                                    <p><strong>Rank:</strong> <span id="fromUserRank"></span></p>
+                                    <p><strong>Role:</strong> <span id="fromUserRole"></span></p>
+                                </div>
+                                <div class="party-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                                <div class="party to-party">
+                                    <h5>To (Taking Over):</h5>
+                                    <p><strong>Name:</strong> <span id="toUserName">Select user above</span></p>
+                                    <p><strong>Rank:</strong> <span id="toUserRank">-</span></p>
+                                    <p><strong>Role:</strong> <span id="toUserRole">-</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mobileNumber">Your Mobile Number:</label>
+                        <input type="tel" id="mobileNumber" name="mobileNumber" placeholder="Enter 8-digit mobile number" required pattern="[0-9]{8}">
+                        <div class="form-help">
+                            <i class="fas fa-info-circle"></i> Required for HOTO verification
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dateHOTO">Date of HOTO:</label>
+                        <input type="date" id="dateHOTO" name="dateHOTO" required>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-secondary back-button">Back</button>
+                        <button type="button" class="btn btn-primary next-button">Next: Verification</button>
+                    </div>
+                </div>
+
+                <!-- SECTION 4: Verification & Submission -->
+                <div id="section4" class="form-section">
+                    <h2 class="page-title">Verification & Submission</h2>
+
+                    <div class="verification-summary">
+                        <h4>HOTO Summary:</h4>
+                        <div class="summary-card">
+                            <div class="summary-row">
+                                <strong>Store:</strong> <span id="summaryStoreName"></span>
+                            </div>
+                            <div class="summary-row">
+                                <strong>Store ID:</strong> <span id="summaryStoreId"></span>
+                            </div>
+                            <div class="summary-row">
+                                <strong>Team:</strong> <span id="summaryStoreTeam"></span>
+                            </div>
+                            <div class="summary-row">
+                                <strong>HOTO Type:</strong> <span id="summaryHotoType">Hand Over</span>
+                            </div>
+                            <div id="handoverSummary">
+                                <div class="summary-row">
+                                    <strong>Handing Over To:</strong> <span id="summaryHandoverTo"></span>
+                                </div>
+                            </div>
+                            <div class="summary-row">
+                                <strong>Your Name:</strong> <span id="summaryUserName"></span>
+                            </div>
+                            <div class="summary-row">
+                                <strong>Date:</strong> <span id="summaryDate"></span>
+                            </div>
+                            <div class="summary-row">
+                                <strong>Mobile:</strong> <span id="summaryMobile"></span>
+                            </div>
+                            <div class="summary-row">
+                                <strong>QR Verified:</strong> <span id="summaryQRVerified" style="color: #28a745;"><i class="fas fa-check-circle"></i> Yes</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Store Condition:</label>
+                        <div class="radio-toggle">
+                            <input type="radio" id="conditionYes" name="storeCondition" value="Yes" checked>
+                            <label for="conditionYes">GOOD CONDITION</label>
+                            
+                            <input type="radio" id="conditionNo" name="storeCondition" value="No">
+                            <label for="conditionNo">ISSUES FOUND</label>
+                        </div>
+                    </div>
+
+                    <div id="issue-reporting-section" class="hidden">
+                        <div class="form-group">
+                            <label for="issue-description">Issue Description:</label>
+                            <textarea id="issue-description" name="issueDescription" rows="3" placeholder="Describe any issues with the store..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="issue-notification">Notification to MEC OIC/Admin:</label>
+                            <input type="text" id="issue-notification" name="issueNotification" placeholder="e.g., Notified CPT Tan via phone call.">
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="issue-resolved-checkbox" name="issueResolved">
+                            <label for="issue-resolved-checkbox">Issue has been resolved</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="remarks">Remarks (Optional):</label>
+                        <textarea id="remarks" name="remarks" rows="2" placeholder="Any additional notes about this handover..."></textarea>
+                    </div>
+
+                    <div class="verification-note">
+                        <p><i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Ensure all information is correct before submission. This action will transfer store responsibility.</p>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-secondary back-button">Back</button>
+                        <button type="submit" id="submit-hoto-btn" class="btn btn-primary">Submit Hand Over</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2><i class="fas fa-check-circle success-icon"></i> Hand Over Completed!</h2>
+            <p id="successMessage">Store has been successfully handed over.</p>
+            <div class="modal-actions">
+                <button id="goToRecordsBtn" class="btn btn-primary">View HOTO Records</button>
+                <button id="startNewHotoBtn" class="btn btn-secondary">Start New Hand Over</button>
+                <button id="goToHomeBtn" class="btn btn-secondary">Return to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2><i class="fas fa-exclamation-triangle error-icon"></i> Error</h2>
+            <p id="errorMessage">An error occurred. Please try again.</p>
+            <button id="closeErrorModal" class="btn btn-primary">OK</button>
+        </div>
+    </div>
+
+    <script src="src/js/real-time-handover.js"></script>
+    <script src="src/js/hoto-form-fill.js"></script>
+</body>
+</html>
